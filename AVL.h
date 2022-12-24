@@ -23,18 +23,17 @@ public:
     void destroy_tree(Node<T>* base);
     Node<T>* get_root() const;
     void set_root(Node<T>* new_root);
-    Node<T>* RR(Node<T>* unbalanced);
-    Node<T>* LR(Node<T>* unbalanced);
-    Node<T>* LL(Node<T>* unbalanced);
-    Node<T>* RL(Node<T>* unbalanced);
+    virtual Node<T>* RR(Node<T>* unbalanced);
+    virtual Node<T>* LR(Node<T>* unbalanced);
+    virtual Node<T>* LL(Node<T>* unbalanced);
+    virtual Node<T>* RL(Node<T>* unbalanced);
     int balance_factor(Node <T> *n) const;
     int calc_height(Node<T> *n) const ;
-    Node<T>* insert(Node<T> *prev_node,Node<T> *current, shared_ptr<T>data);
-    Node<T>* remove(shared_ptr<T> removed_Node_id);
+    virtual Node<T>* insert(Node<T> *prev_node,Node<T> *current, shared_ptr<T>data);
+    virtual Node<T>* remove(shared_ptr<T> removed_Node_id);
     Node<T>* find(Node<T>* cur_node, T& comp);
-    Node<T>* switch_AVL_values(Node<T>* cur_parent, Node<T>* son);
-    Node<T>* delete_node_as_leaf (Node<T>* to_delete);
-    void recursive_all_players(Node<T>* node, Node<T>* array [],int* cell);
+    virtual Node<T>* switch_AVL_values(Node<T>* cur_parent, Node<T>* son);
+    virtual Node<T>* delete_node_as_leaf (Node<T>* to_delete);
 
 
 
@@ -465,27 +464,6 @@ void AVL<T>::set_root(Node<T>* new_root) {
         this->m_root = new_root;
     }
 }
-template<class T>
-void AVL<T>::recursive_all_players(Node<T>* node, Node<T>* array [],int* cell)
-{
-    if(node->left == nullptr && node->right == nullptr)
-    {
-        array[(*cell)] = node;
-        (*cell)++;
-        return;
-    }
-    if(node->left != nullptr)
-    {
-        this->recursive_all_players(node->left, array, cell);
-    }
-    array[(*cell)] = node;
-    (*cell)++;
-    if(node->right != nullptr)
-    {
-        this->recursive_all_players(node->right, array, cell);
-    }
-}
-
 
 //print functions. need to be deleted before we assign this project
 

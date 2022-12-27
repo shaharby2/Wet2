@@ -29,6 +29,7 @@ public:
     virtual Node<T>* RL(Node<T>* unbalanced);
     int balance_factor(Node <T> *n) const;
     int calc_height(Node<T> *n) const ;
+    int calc_rank (Node<T> *node) const;
     virtual Node<T>* insert(Node<T> *prev_node,Node<T> *current, shared_ptr<T>data);
     virtual Node<T>* remove(shared_ptr<T> removed_Node_id);
     Node<T>* find(Node<T>* cur_node, T& comp);
@@ -100,6 +101,7 @@ Node<T>* AVL<T>::insert(Node<T> *prev_node,Node<T> *current, shared_ptr<T> data)
         current->left = insert(current,current->left,data);
     }
     current->height = calc_height(current);
+    current->rank = calc_rank(current);
     current = rotations(current);
     return current;
 
@@ -145,6 +147,17 @@ int AVL<T>::calc_height(Node<T> *n) const {
 }
 
 template<class T>
+int AVL<T>::calc_rank(Node<T> *node) const {
+    if(node==nullptr){
+        return 0;
+    }
+    if (node->left ==nullptr && node->right == nullptr) return 1;
+    if(node->left==nullptr) return (node->right->rank + 1);
+    if(node->right==nullptr) return (node->left->rank + 1);
+    return node->right->rank + node->left->rank + 1;
+}
+
+template<class T>
 Node<T>* AVL<T>::LL(Node<T>* unbalanced) {
     Node<T>* new_source = unbalanced->left;
     unbalanced->left = new_source->right;
@@ -173,6 +186,8 @@ Node<T>* AVL<T>::LL(Node<T>* unbalanced) {
     unbalanced->height = calc_height(unbalanced);
     new_source->height = calc_height(new_source);
     new_source->left->height = calc_height(new_source->left);
+    unbalanced->rank = calc_rank(unbalanced);
+    new_source->rank = calc_rank(new_source);
 
     return new_source;
 }
@@ -206,6 +221,8 @@ Node<T>* AVL<T>::RR(Node<T>* unbalanced) {
     unbalanced->height = calc_height(unbalanced);
     new_source->height = calc_height(new_source);
     new_source->right->height = calc_height(new_source->right);
+    unbalanced->rank = calc_rank(unbalanced);
+    new_source->rank = calc_rank(new_source);
 
     return new_source;
 }
@@ -251,6 +268,9 @@ Node<T>* AVL<T>::LR(Node<T>* unbalanced) {
     p->height = calc_height(p);
     tp->height = calc_height(tp);
     tp2->height = calc_height(tp2);
+    p->rank = calc_rank(p);
+    tp->rank = calc_rank(tp);
+    tp2->rank = calc_rank(tp2);
 
     return tp2;
 
@@ -297,6 +317,9 @@ Node<T>* AVL<T>::RL(Node<T>* unbalanced) {
     p->height = calc_height(p);
     tp->height = calc_height(tp);
     tp2->height = calc_height(tp2);
+    p->rank = calc_rank(p);
+    tp->rank = calc_rank(tp);
+    tp2->rank = calc_rank(tp2);
 
     return tp2;
 }
@@ -317,10 +340,12 @@ Node<T>* AVL<T>::remove(shared_ptr<T> removed_Node_id)
         if(after_deletion_node->left == nullptr && after_deletion_node->right == nullptr)
         {
             after_deletion_node->height = 0;
+            after_deletion_node->rank = 1;
         }
         else
         {
             after_deletion_node->height = calc_height(after_deletion_node);
+            after_deletion_node->rank = calc_rank(after_deletion_node);
             if (balance_factor(after_deletion_node) == UNBALANCED_PLUS)
             {
                 if(balance_factor(after_deletion_node->left) >= 0)
@@ -353,14 +378,10 @@ template<class T>
 Node<T>* AVL<T>::switch_AVL_values(Node<T>* cur_parent, Node<T>* son)
 {
     shared_ptr<T> temp_data;
-    int temp_height;
 
     temp_data = cur_parent->data;
-    temp_height = cur_parent->height;
     cur_parent->data = son->data;
-    cur_parent->height = son->height;
     son->data = temp_data;
-    son->height = temp_height;
 
     return son;
 }

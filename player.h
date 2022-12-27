@@ -5,54 +5,45 @@
 #ifndef WET1_PLAYER_H
 #define WET1_PLAYER_H
 
-#include "AVL.h"
+#include "wet2util.h"
+#include "Node.h"
+
 class team;
 class player{
 private:
     int m_playerId;
     int m_gamesPlayed;//
-    int m_goals;
     int m_cards;
+    int m_ability;
+    int m_team_games;
     bool m_goalkeeper;
-    Node<team>* m_team_ptr;
-    Node<player>* m_closest_right;
-    Node<player>* m_closest_left;
+    bool m_is_legal;
+    permutation_t m_partial_spirit;
+
 public:
     player();
-    player(int playerId, int games_Played, int cards, int goals, bool goal_Keeper);
+    player(int playerId, int games_Played, int cards, bool goal_Keeper);
     ~player();
     player& operator=(const player& other);
     int getId() const;
-    //int get_team_id() const;
     int get_games_played() const;
-    int get_goals() const;
     int get_cards() const;
+    int get_ability() const;
+    int get_team_games() const;
     bool get_goal_keeper() const;
-    Node<team>* get_team_ptr() const;
-    //Node<player>* get_players_tree() const;
-    //Node<player>* get_players_by_goals_tree() const;
+    bool get_is_legal() const;
+    permutation_t get_partial_spirit() const;
 
     void set_player_id(int player_id);
     void set_games_played(int gamesPlayed);
-
-    void set_goals(int goals);
-    //void set_cards(int cards);
-
+    void set_cards(int cards);
+    void set_ability(int ability);
+    void set_team_games(int games);
+    void set_is_legal(bool is_legal);
     void set_goal_keeper(bool goal_keeper);
-    void set_team_ptr(Node<team>* team_ptr);
-
-    void update_members(int games_played, int goals, int cards);
-    void set_members(int games_played, int goals, int cards);
-
-    Node<player>* get_closest_right() const;
-    Node<player>* get_closest_left() const;
-    void set_closest_left(Node<player>* closest) ;
-    void set_closest_right(Node<player>* closest) ;
-    Node<player>* find_left_closest(Node<player>* iterible, shared_ptr<player> node, Node<player>* current_closest,Node<player>* root);
-    Node<player>* find_right_closest(Node<player>* iterible, shared_ptr<player> node, Node<player>* current_closest,Node<player>* root);
-    Node<player>* get_closer(Node<player>* left_p, Node<player>* right_p) const;
+    void set_partial_spirit(const permutation_t& perm);
+    void update_members(int games_played, int cards);
+    void set_members(int games_played, int cards);
 
 };
-int compare_player_id(Node<player>* cur_node,player& comp);
-int compare_player_goals(Node<player>* cur_node,player& comp);
 #endif //WET1_PLAYER_H

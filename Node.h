@@ -9,7 +9,8 @@ struct Node{
     Node<T>* left;
     Node<T>* right;
     Node<T>* parent;
-    int height;
+    int height{};
+    int rank{};
 
     explicit Node(){
         this->data = nullptr;
@@ -17,6 +18,7 @@ struct Node{
         this->right = nullptr;
         this->parent = nullptr;
         this->height = 0;
+        this->rank = 1;
     };
 
     ~Node(){

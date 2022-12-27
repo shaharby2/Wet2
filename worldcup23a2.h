@@ -16,6 +16,7 @@
 #define WORLDCUP23A2_H_
 
 #include "wet2util.h"
+#include "AVL.h"
 
 class world_cup_t {
 private:

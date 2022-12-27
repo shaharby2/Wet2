@@ -10,6 +10,65 @@
 // .. WILL use our file.
 //
 
+
+#include "worldcup23a2.h"
+#include <string>
+#include "team.h"
+
+using namespace std;
+
+
+int main()
+{
+    AVL<team>* a = new AVL<team>(compare_team_id);
+    shared_ptr<team> added_team(new team(1, 1));
+    shared_ptr<team> added_team1(new team(3, 1));
+    shared_ptr<team> added_team2(new team(2, 1));
+    shared_ptr<team> added_team3(new team(7, 1));
+    shared_ptr<team> added_team4(new team(1, 1));
+    shared_ptr<team> added_team5(new team(5, 1));
+    shared_ptr<team> added_team6(new team(1, 1));
+    shared_ptr<team> added_team7(new team(1, 1));
+    shared_ptr<team> added_team8(new team(1, 1));
+    shared_ptr<team> added_team9(new team(10, 1));
+    shared_ptr<team> added_teama(new team(1, 1));
+    shared_ptr<team> added_teamb(new team(14, 1));
+    shared_ptr<team> added_teamc(new team(1, 1));
+    shared_ptr<team> added_teamd(new team(13, 1));
+    shared_ptr<team> added_teame(new team(1, 1));
+    shared_ptr<team> added_teamf(new team(1, 1));
+    shared_ptr<team> added_teamg(new team(11, 1));
+    shared_ptr<team> added_teamh(new team(1, 1));
+    shared_ptr<team> added_teami(new team(10, 1));
+
+    a->set_root(a->insert(nullptr, a->get_root(),added_team));
+    a->set_root(a->insert(nullptr, a->get_root(),added_team1));
+    a->set_root(a->insert(nullptr, a->get_root(),added_team2));
+    a->set_root(a->insert(nullptr, a->get_root(),added_team3));
+    a->set_root(a->insert(nullptr, a->get_root(),added_team4));
+    a->set_root(a->insert(nullptr, a->get_root(),added_team5));
+    a->set_root(a->insert(nullptr, a->get_root(),added_team6));
+    a->set_root(a->insert(nullptr, a->get_root(),added_team7));
+    a->set_root(a->insert(nullptr, a->get_root(),added_team8));
+    a->set_root(a->insert(nullptr, a->get_root(),added_team9));
+    a->set_root(a->insert(nullptr, a->get_root(),added_teama));
+    a->set_root(a->insert(nullptr, a->get_root(),added_teamb));
+    a->set_root(a->insert(nullptr, a->get_root(),added_teamc));
+    a->set_root(a->insert(nullptr, a->get_root(),added_teamd));
+    a->set_root(a->insert(nullptr, a->get_root(),added_teame));
+    a->set_root(a->insert(nullptr, a->get_root(),added_teamf));
+    a->set_root(a->insert(nullptr, a->get_root(),added_teamg));
+    a->set_root(a->insert(nullptr, a->get_root(),added_teamh));
+    a->set_root(a->insert(nullptr, a->get_root(),added_teami));
+
+
+    a->print2D(a->get_root());
+    return 0;
+}
+
+
+
+/*
 #include "worldcup23a2.h"
 #include <string>
 #include <iostream>
@@ -145,3 +204,4 @@ void print(string cmd, output_t<T> res)
         cout << cmd << ": " << StatusTypeStr[(int) res.status()] << endl;
     }
 }
+*/

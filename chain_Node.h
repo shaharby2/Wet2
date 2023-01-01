@@ -19,6 +19,7 @@ struct chain_Node{
         this->m_key = p_node->data->getId();
         this->m_next = nullptr;
     };
+    chain_Node();
 
     ~chain_Node(){
     };

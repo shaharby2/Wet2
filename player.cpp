@@ -5,7 +5,7 @@
 player::player()
 {
     this->m_playerId = 0;
-    this->m_gamesPlayed = 0;//
+    this->m_gamesPlayed = 0;
     this->m_cards =0;
     this->m_ability = 0;
     this->m_team_games =0;

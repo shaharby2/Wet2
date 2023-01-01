@@ -6,9 +6,11 @@ template<class T>
 
 struct Node{
     shared_ptr<T> data;
+    Node<T>* parent;
+
+    //For rank tree:
     Node<T>* left;
     Node<T>* right;
-    Node<T>* parent;
     int height{};
     int rank{};
 

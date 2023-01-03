@@ -16,8 +16,23 @@ world_cup_t::~world_cup_t()
 
 StatusType world_cup_t::add_team(int teamId)
 {
-    // TODO: Your code goes here
+    if(teamId <= 0) {
+        return StatusType::INVALID_INPUT;
+    }
+    try{
+
+        shared_ptr<team> added_team(new team(teamId));
+
+        if(teams->find(this->teams->get_root(),*added_team) != nullptr){
+            //Found the team in the teams tree:
+            return StatusType::FAILURE;
+        }
+        teams->set_root(teams->insert(nullptr, teams->get_root(),added_team));
+        team_by_ability->set_root(team_by_ability->insert(nullptr, teams->get_root(),added_team));
+    }
+    catch(...){return StatusType::ALLOCATION_ERROR;}
     return StatusType::SUCCESS;
+
 }
 
 StatusType world_cup_t::remove_team(int teamId)
@@ -49,7 +64,44 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
                                    const permutation_t &spirit, int gamesPlayed,
                                    int ability, int cards, bool goalKeeper)
 {
-    // TODO: Your code goes here
+    if(playerId <= 0|| teamId <= 0 || gamesPlayed || !spirit.isvalid())
+    {
+        return StatusType::INVALID_INPUT;
+    }
+    try {
+        shared_ptr<team> team_data(new team(teamId));
+        Node<team> *cur_team = teams->find(teams->get_root(), *team_data);
+        if (cur_team == nullptr)
+        {
+            return StatusType::FAILURE;
+        }
+        chain_Node *chain_player = players->get_hashed_array().get_player(playerId);
+        if (chain_player != nullptr)
+        {
+            return StatusType::FAILURE;
+        }
+        shared_ptr<player> player_data(new player(playerId,gamesPlayed,ability,cards,goalKeeper));
+        Node<player>* new_player = new Node<player>();
+        new_player->data = player_data;
+
+        if(cur_team->data->get_team_Players() == nullptr)
+        {
+            new_player->data->set_is_legal(true);
+            new_player->data->set_partial_spirit(spirit);
+        }
+        else
+        {
+            Node<player>* temp_root = cur_team->data->get_team_Players();
+            players->Union(temp_root,new_player);
+            permutation_t m_partial_spirit;
+            temp_root->data->set_size_of_team(1);
+            temp_root->data->set_goal_keeper(new_player->data->get_goal_keeper());
+            new_player->data->set_partial_spirit()
+
+
+        }
+    }
+    catch(...){return StatusType::ALLOCATION_ERROR;}
     return StatusType::SUCCESS;
 }
 

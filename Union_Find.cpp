@@ -6,12 +6,6 @@
 Union_Find::Union_Find(int size, int pow) {
     m_hashed_array = hash_table(size,pow);
 }
-/*
-Node<player> *Union_Find::MakeSet(int playerId) {
-
-    return nullptr;
-}
-*/
 
 Node<player>* Union_Find::Find(int player_id) {
     chain_Node* cur_player = m_hashed_array.get_player(player_id);
@@ -36,8 +30,23 @@ Node<player>* Union_Find::Find(int player_id) {
 }
 
 Node<player> *Union_Find::Union(Node<player> *group1, Node<player> *group2) {
-    return nullptr;
+    if(group1->data->get_size_of_team()>= group2->data->get_size_of_team())
+    {
+        group2->parent = group1;
+        group1->data->set_size_of_team(group1->data->get_size_of_team()+group2->data->get_size_of_team());
+        group1->data->set_goal_keeper(group1->data->get_goal_keeper()+group2->data->get_goal_keeper());
+        return group1;
+    }
+    else
+    {
+        group1->parent = group2;
+        group2->data->set_size_of_team(group1->data->get_size_of_team()+group2->data->get_size_of_team());
+        group2->data->set_goal_keeper(group1->data->get_goal_keeper()+group2->data->get_goal_keeper());
+        return group2;
+    }
 }
 
-
+hash_table Union_Find::get_hashed_array() const {
+    return m_hashed_array;
+}
 

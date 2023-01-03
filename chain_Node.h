@@ -22,6 +22,11 @@ struct chain_Node{
     chain_Node();
 
     ~chain_Node(){
+        if(this->m_next != nullptr)
+        {
+            delete this->m_next;
+        }
+        delete this;
     };
 
 };

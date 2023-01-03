@@ -17,12 +17,13 @@
 
 #include "wet2util.h"
 #include "AVL.h"
+#include "Union_Find.h"
 
 class world_cup_t {
 private:
-    //
-    // Here you may add anything you want
-    //
+    AVL<team>* teams;
+    AVL<team>* team_by_ability;
+    Union_Find* players;
 
 public:
     // <DO-NOT-MODIFY> {

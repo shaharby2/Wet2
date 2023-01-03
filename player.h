@@ -16,13 +16,14 @@ private:
     int m_cards;
     int m_ability;
     int m_team_games;
-    bool m_goalkeeper;
+    int m_size_of_team;
+    int m_goalkeeper;
     bool m_is_legal;
     permutation_t m_partial_spirit;
 
 public:
     player();
-    player(int playerId, int games_Played, int cards, bool goal_Keeper);
+    player(int playerId, int games_Played, int ability, int cards, bool goal_Keeper);
     ~player();
     player& operator=(const player& other);
     int getId() const;
@@ -30,7 +31,8 @@ public:
     int get_cards() const;
     int get_ability() const;
     int get_team_games() const;
-    bool get_goal_keeper() const;
+    int get_size_of_team() const;
+    int get_goal_keeper() const;
     bool get_is_legal() const;
     permutation_t get_partial_spirit() const;
 
@@ -39,8 +41,9 @@ public:
     void set_cards(int cards);
     void set_ability(int ability);
     void set_team_games(int games);
+    void set_size_of_team(int size);
     void set_is_legal(bool is_legal);
-    void set_goal_keeper(bool goal_keeper);
+    void set_goal_keeper(int goal_keeper);
     void set_partial_spirit(const permutation_t& perm);
     void update_members(int games_played, int cards);
     void set_members(int games_played, int cards);

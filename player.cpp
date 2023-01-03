@@ -69,7 +69,7 @@ void player::set_games_played(int games_Played) {
 }
 
 void player::set_cards(int cards) {
-    this->m_cards = cards;
+    this->m_cards += cards;
 }
 
 void player::set_ability(int ability) {

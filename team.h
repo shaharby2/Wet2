@@ -22,7 +22,7 @@ private:
     permutation_t m_multiplication_spirit;
 
 public:
-    team(int id, int points);
+    team(int id);
     explicit team();
     ~team() = default;
     team& operator=( const team& other);
@@ -39,6 +39,7 @@ public:
 
     int calc_game_score()const;
 
+
     void set_team_id(int new_team_id);
     void set_points(int new_points);
     void set_num_of_players(int new_num_of_players);
@@ -52,6 +53,7 @@ public:
 
     void set_members(int new_points , int new_num_of_players, int new_cards);
 };
+int compare_play_match(shared_ptr<team> team1, shared_ptr<team> team2);
 int compare_team_id(Node<team>* cur_node, team& comp);
 int compare_team_ability(Node<team>* cur_node, team& comp);
 #endif //WET1_TEAM_H

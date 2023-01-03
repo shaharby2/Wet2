@@ -12,7 +12,7 @@ class team;
 class player{
 private:
     int m_playerId;
-    int m_gamesPlayed;//
+    int m_gamesPlayed;
     int m_cards;
     int m_ability;
     int m_team_games;

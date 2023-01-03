@@ -75,5 +75,7 @@ chain_Node* hash_table::get_player(int playerId) {
         if(iterator->m_data->data->getId() == playerId){
             return iterator;
         }
+        iterator = iterator->m_next;
     }
+    return nullptr;
 }

@@ -6,7 +6,9 @@
 #define WET2_NEW_HASH_TABLE_H
 
 #include "chain_Node.h"
-#include "player.h"
+#include "team.h"
+
+#define MAX_WEIGHT_FACTOR 1
 
 #define MAX_WEIGHT_FACTOR 1
 

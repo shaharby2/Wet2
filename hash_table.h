@@ -31,6 +31,9 @@ public:
     void add_to_array(Node<player>* new_player, chain_Node** array);
     void rehash(Node<player>* new_player);
     int get_cell(int id);
+    void set_num_of_players(int num_players);
+    chain_Node** get_array()const;
+
 };
 
 #endif //WET2_NEW_HASH_TABLE_H

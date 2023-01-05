@@ -69,7 +69,7 @@ Node<player>* Union_Find::Find(int player_id) {
     //Reach to the last parent - the source of the upside-down tree:
     Node<player>* source_iterator = cur_player->m_data;
     Node<player>* iterator = cur_player->m_data;
-    Node<player>* next_p;
+    //Node<player>* next_p;??? ---------------------------------------What is it?---------------------------
     int sum_team_games=0;
     Node<player>* next_p = cur_player->m_data;
     while(source_iterator->parent!=nullptr){

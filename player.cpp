@@ -89,7 +89,7 @@ void player::set_ability(int ability) {
 }
 
 void player::set_team_games(int games) {
-    this->m_team_games = games;
+    this->m_team_games += games;
 }
 
 void player::set_size_of_team(int size) {

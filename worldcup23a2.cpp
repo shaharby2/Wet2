@@ -91,6 +91,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
         {
             new_player->data->set_is_legal(true);
             new_player->data->set_partial_spirit(spirit);
+            new_player->data->set_root_spirit(spirit);
             cur_team->data->set_team_spirit(spirit);
             cur_team->data->set_team_Players(new_player);
         }
@@ -99,7 +100,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
             Node<player>* temp_root = cur_team->data->get_team_Players();
             players->Union(temp_root,new_player);
             new_player->data->set_partial_spirit(cur_team->data->get_team_spirit()*spirit);
-            cur_team->data->set_team_spirit(new_player->data->get_partial_spirit());
+            cur_team->data->set_team_spirit(cur_team->data->get_team_spirit()*spirit);
         }
         players->get_hashed_array().set_num_of_players(1);
         if (players->get_hashed_array().is_rehash_needed())

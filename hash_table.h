@@ -18,7 +18,7 @@ class hash_table{
     chain_Node** m_array;
 public:
     hash_table(int size, int pow);
-    hash_table();
+    hash_table() = default;
 
     ~hash_table();
     /*

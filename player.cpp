@@ -12,6 +12,7 @@ player::player()
     this->m_size_of_team = 1;
     this->m_is_legal = false;
     this->m_goalkeeper = 0;
+    this->m_root_spirit = permutation_t::neutral();
 }
 
 player::player(int playerId, int games_Played, int ability, int cards, bool goal_Keeper){
@@ -30,6 +31,7 @@ player::player(int playerId, int games_Played, int ability, int cards, bool goal
     {
         this->m_goalkeeper = 0;
     }
+    this->m_root_spirit = permutation_t::neutral();
 }
 
 player::~player()=default;
@@ -72,6 +74,10 @@ permutation_t player::get_partial_spirit() const {
     return this->m_partial_spirit;
 }
 
+permutation_t player::get_root_spirit() const {
+    return this->m_root_spirit;
+}
+
 void player::set_player_id(int player_Id) {
     this->m_playerId = player_Id;
 }
@@ -106,6 +112,11 @@ void player::set_goal_keeper(int goal_Keeper) {
 void player::set_partial_spirit(const permutation_t &perm) {
     this->m_partial_spirit = perm;
 }
+
+void player::set_root_spirit(const permutation_t &perm) {
+    this->m_root_spirit = perm;
+}
+
 void player::update_members(int games_played, int cards)
 {
     this->m_gamesPlayed += games_played;

@@ -20,6 +20,7 @@ private:
     int m_goalkeeper;
     bool m_is_legal;
     permutation_t m_partial_spirit;
+    permutation_t m_root_spirit;
 
 public:
     player();
@@ -35,6 +36,7 @@ public:
     int get_goal_keeper() const;
     bool get_is_legal() const;
     permutation_t get_partial_spirit() const;
+    permutation_t get_root_spirit() const;
 
     void set_player_id(int player_id);
     void set_games_played(int gamesPlayed);
@@ -45,6 +47,7 @@ public:
     void set_is_legal(bool is_legal);
     void set_goal_keeper(int goal_keeper);
     void set_partial_spirit(const permutation_t& perm);
+    void set_root_spirit(const permutation_t& perm);
     void update_members(int games_played, int cards);
     void set_members(int games_played, int cards);
 

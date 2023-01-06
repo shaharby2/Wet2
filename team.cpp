@@ -175,4 +175,6 @@ void buy(shared_ptr<team> buyer, shared_ptr<team> bought) {
     buyer->set_team_ability(bought->get_team_ability());
     buyer->set_points(bought->get_points());
     buyer->set_goalkeeper(bought->get_goalkeeper());
+    buyer->set_team_games_played(bought->get_team_games_played());
+    buyer->set_team_spirit(bought->get_team_spirit());
 }

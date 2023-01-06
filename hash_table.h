@@ -20,11 +20,9 @@ public:
     hash_table(int size, int pow);
     hash_table() = default;
 
+    hash_table& operator=(const hash_table & other);
+
     ~hash_table();
-    /*
-    chain_Node** get_array();
-    void set_array(chain_Node** new_arr);
-     */
     chain_Node* get_player(int playerId);
 
     bool is_rehash_needed();
@@ -33,6 +31,8 @@ public:
     int get_cell(int id);
     void set_num_of_players(int num_players);
     chain_Node** get_array()const;
+    void new_nullptr_array(int size , int pow);
+
 
 };
 

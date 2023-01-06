@@ -15,7 +15,6 @@ public:
     Node<player>* Find (int player_id);
     Node<player>* Union (Node<player>* group1, Node<player>* group2);
     hash_table get_hashed_array() const;
-    void update_Union_stats(Node<player> *group1, Node<player> *group2);
 };
 
 #endif //WET2_NEW_UNION_FIND_H

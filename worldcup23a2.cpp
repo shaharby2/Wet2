@@ -98,11 +98,15 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
         else
         {
             Node<player>* temp_root = cur_team->data->get_team_Players();
-            players->Union(temp_root,new_player);
-            new_player->data->set_partial_spirit(cur_team->data->get_team_spirit()*spirit);
-            cur_team->data->set_team_spirit(cur_team->data->get_team_spirit()*spirit);
+            new_player->parent = temp_root;
+            temp_root->data->set_size_of_team(1);
+            temp_root->data->set_goal_keeper(new_player->data->get_goal_keeper());
+            new_player->data->set_partial_spirit(temp_root->data->get_root_spirit()*spirit);
+            temp_root->data->set_root_spirit( temp_root->data->get_root_spirit()*spirit);
         }
+        cur_team->data->set_team_ability(ability);
         players->get_hashed_array().set_num_of_players(1);
+
         if (players->get_hashed_array().is_rehash_needed())
         {
             players->get_hashed_array().rehash(new_player);
@@ -167,6 +171,7 @@ output_t<int> world_cup_t::num_played_games_for_player(int playerId)
             //Didn't find the player
             return StatusType::FAILURE;
         }
+        Node<player>* source = players->Find(playerId);
         sum_games_played+=cur_player->m_data->data->get_games_played(); // pink in the drawing
         Node<player>* iterator = cur_player->m_data;
         while(iterator->parent!=nullptr){
@@ -182,7 +187,7 @@ output_t<int> world_cup_t::num_played_games_for_player(int playerId)
 StatusType world_cup_t::add_player_cards(int playerId, int cards)
 {
     if(playerId<=0 || cards<0){
-        return StatusType::FAILURE;
+        return StatusType::INVALID_INPUT;
     }
     try{
         chain_Node* cur_player = players->get_hashed_array().get_player(playerId);
@@ -204,7 +209,7 @@ StatusType world_cup_t::add_player_cards(int playerId, int cards)
 output_t<int> world_cup_t::get_player_cards(int playerId)
 {
     if(playerId<=0){
-        return StatusType::FAILURE;
+        return StatusType::INVALID_INPUT;
     }
     int player_cards;
     try{

@@ -3,10 +3,8 @@
 //
 #include "Union_Find.h"
 
-Union_Find::Union_Find(int size, int pow)
-{
-    m_hashed_array.new_nullptr_array(size , pow);
-}
+Union_Find::Union_Find(int size, int pow):
+m_hashed_array(size, pow){}
 
 Node<player>* Union_Find::Find(int player_id) {
     chain_Node* cur_player = m_hashed_array.get_player(player_id);
@@ -40,7 +38,7 @@ Node<player>* Union_Find::Find(int player_id) {
         temp_partial_spirit = iterator->data->get_partial_spirit();// sets to spirit of new node
     }
 
-    return cur_player->m_data;
+    return source_iterator;
 }
 
 Node<player> *Union_Find::Union(Node<player> *buyer, Node<player> *bought) {
@@ -54,6 +52,27 @@ Node<player> *Union_Find::Union(Node<player> *buyer, Node<player> *bought) {
     return buyer;
 }
 
-hash_table Union_Find::get_hashed_array() const {
-    return m_hashed_array;
+chain_Node* Union_Find::get_player(int playerId){
+    return m_hashed_array.get_player(playerId);
+}
+
+void Union_Find::set_num_of_players(int num_players)
+{
+    m_hashed_array.set_num_of_players(num_players);
+}
+
+bool Union_Find::is_rehash_needed(){
+    return m_hashed_array.is_rehash_needed();
+}
+
+void Union_Find::add_to_array(Node<player>* new_player, chain_Node** array){
+    m_hashed_array.add_to_array(new_player, array);
+}
+
+void Union_Find::rehash(Node<player>* new_player){
+    m_hashed_array.rehash(new_player);
+}
+
+chain_Node** Union_Find::get_array() const {
+    return m_hashed_array.get_array();
 }

@@ -3,10 +3,12 @@
 //
 #include "hash_table.h"
 
-hash_table::hash_table(int size, int pow) {
-    this->m_num_of_players = 0;
-    this->m_pow = pow;
-    this->m_array = nullptr;
+hash_table::hash_table(int size, int pow):m_num_of_players(0),m_pow(pow),m_array(nullptr) {
+    m_array = new chain_Node*[size];
+    for(int i=0;i<size;i++)
+    {
+        m_array[i]= nullptr;
+    }
 }
 
 hash_table::~hash_table()
@@ -40,16 +42,16 @@ bool hash_table::is_rehash_needed() {
 }
 
 void hash_table::add_to_array(Node<player>* new_player, chain_Node** array) {
-    chain_Node cur_chain(new_player);
+    chain_Node* cur_chain = new chain_Node(new_player);
     int cell = get_cell(new_player->data->getId());
     if(m_array[cell] == nullptr)
     {
-        m_array[cell] = &cur_chain;
+        m_array[cell] = cur_chain;
     }
     else
     {
-        (&cur_chain)->m_next = array[cell]->m_next;
-        array[cell]->m_next = (&cur_chain);
+        (cur_chain)->m_next = array[cell]->m_next;
+        array[cell]->m_next = (cur_chain);
     }
     m_num_of_players++;
 }
@@ -100,15 +102,4 @@ void hash_table::set_num_of_players(int num_players)
 
 chain_Node** hash_table::get_array() const {
     return m_array;
-}
-
-void hash_table::new_nullptr_array(int size , int pow) {
-    chain_Node** array = new chain_Node*[size];
-    for(int i=0;i<size;i++)
-    {
-        array[i]= nullptr;
-    }
-    m_array = array;
-    m_pow = pow;
-    m_num_of_players = 0;
 }

@@ -14,7 +14,12 @@ public:
     ~Union_Find() = default;
     Node<player>* Find (int player_id);
     Node<player>* Union (Node<player>* group1, Node<player>* group2);
-    hash_table get_hashed_array() const;
+    chain_Node* get_player(int playerId);
+    void set_num_of_players(int num_players);
+    bool is_rehash_needed();
+    void add_to_array(Node<player>* new_player, chain_Node** array);
+    void rehash(Node<player>* new_player);
+    chain_Node** get_array() const;
 };
 
 #endif //WET2_NEW_UNION_FIND_H

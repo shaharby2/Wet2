@@ -18,7 +18,7 @@ Node<player>* Union_Find::Find(int player_id) {
     Node<player>* iterator = cur_player->m_data;
     Node<player>* next_p;
     permutation_t temp = cur_player->m_data->data->get_partial_spirit(); //multiplies all permutations
-    permutation_t temp_partial_spirit = cur_player->m_data->data->get_partial_spirit();// spesific node partial_spirit
+    permutation_t temp_partial_spirit = cur_player->m_data->data->get_partial_spirit();// specific node partial_spirit
     int sum_team_games=0;
     while(source_iterator->parent!=nullptr){
         source_iterator = source_iterator->parent;
@@ -32,7 +32,7 @@ Node<player>* Union_Find::Find(int player_id) {
         next_p = iterator->parent; //Saves the old parent
         iterator->parent = source_iterator; // Change the parent
         iterator->data->set_team_games(sum_team_games);// sets the correct team games
-        iterator->data->set_partial_spirit(temp);//sets spesific partial_spirit
+        iterator->data->set_partial_spirit(temp*iterator->data->get_partial_spirit());//sets specific partial_spirit
         iterator->data->set_root_spirit(temp);// sets multiplication of permutations in way of the root
         iterator = next_p; //Reach to the old parent
         sum_team_games -= iterator->data->get_team_games();// subtracting the current team games

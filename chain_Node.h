@@ -10,22 +10,20 @@
 using namespace std;
 
 struct chain_Node{
-    int m_key;
     chain_Node* m_next;
     Node<player>* m_data;
 
     explicit chain_Node(Node<player>* p_node){
-        this->m_data = p_node;
-        this->m_key = p_node->data->getId();
-        this->m_next = nullptr;
+        m_data = p_node;
+        m_next = nullptr;
     };
-    chain_Node();
+    chain_Node(){
+        m_next= nullptr;
+        m_data = nullptr;
+    };
 
     ~chain_Node(){
-        if(this->m_next != nullptr)
-        {
-            delete this->m_next;
-        }
+        delete m_next;
         delete this;
     };
 

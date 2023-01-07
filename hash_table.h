@@ -10,8 +10,6 @@
 
 #define MAX_WEIGHT_FACTOR 1
 
-#define MAX_WEIGHT_FACTOR 1
-
 class hash_table{
     int m_pow;
     int m_num_of_players;

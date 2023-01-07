@@ -11,8 +11,8 @@ world_cup_t::world_cup_t()
 world_cup_t::~world_cup_t()
 {
     delete teams;
-    delete players;
     delete team_by_ability;
+    delete players;
 }
 
 StatusType world_cup_t::add_team(int teamId)
@@ -29,7 +29,7 @@ StatusType world_cup_t::add_team(int teamId)
             return StatusType::FAILURE;
         }
         teams->set_root(teams->insert(nullptr, teams->get_root(),added_team));
-        team_by_ability->set_root(team_by_ability->insert(nullptr, teams->get_root(),added_team));
+        team_by_ability->set_root(team_by_ability->insert(nullptr, team_by_ability->get_root(),added_team));
         number_of_teams++;
     }
     catch(...){return StatusType::ALLOCATION_ERROR;}
@@ -45,18 +45,18 @@ StatusType world_cup_t::remove_team(int teamId)
     try{
 
         shared_ptr<team> to_remove_team(new team(teamId));
-
-        if(teams->find(this->teams->get_root(),*to_remove_team) == nullptr){
+        Node<team>* cur_team = teams->find(this->teams->get_root(),*to_remove_team);
+        if(cur_team == nullptr){
             //Didn't find the team in the teams tree:
             return StatusType::FAILURE;
         }
-        Node<player>* cur_source = to_remove_team->get_team_Players();
+        Node<player>* cur_source = cur_team->data->get_team_Players();
         if(cur_source!=nullptr){
             cur_source->data->set_is_legal(false);
         }
 
-        teams->set_root(teams->remove(to_remove_team));
-        team_by_ability->set_root(team_by_ability->remove(to_remove_team));
+        teams->set_root(teams->remove(cur_team->data));
+        team_by_ability->set_root(team_by_ability->remove(cur_team->data));
         number_of_teams--;
     }
     catch(...){return StatusType::ALLOCATION_ERROR;}
@@ -78,7 +78,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
         {
             return StatusType::FAILURE;
         }
-        chain_Node *chain_player = players->get_hashed_array().get_player(playerId);
+        chain_Node *chain_player = players->get_player(playerId);
         if (chain_player != nullptr)
         {
             return StatusType::FAILURE;
@@ -92,6 +92,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
             new_player->data->set_is_legal(true);
             new_player->data->set_partial_spirit(spirit);
             new_player->data->set_root_spirit(spirit);
+            cur_team->data->set_goalkeeper(new_player->data->get_goal_keeper());
             cur_team->data->set_team_spirit(spirit);
             cur_team->data->set_team_Players(new_player);
         }
@@ -105,18 +106,20 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
             temp_root->data->set_root_spirit( temp_root->data->get_root_spirit()*spirit);
         }
         cur_team->data->set_team_ability(ability);
-        players->get_hashed_array().set_num_of_players(1);
+        players->set_num_of_players(1);
 
-        if (players->get_hashed_array().is_rehash_needed())
+        if (players->is_rehash_needed())
         {
-            players->get_hashed_array().rehash(new_player);
+            players->rehash(new_player);
         }
         else
         {
-            players->get_hashed_array().add_to_array(new_player , players->get_hashed_array().get_array());
+            players->add_to_array(new_player , players->get_array());
         }
     }
+
     catch(...){return StatusType::ALLOCATION_ERROR;}
+    int u=0;
     return StatusType::SUCCESS;
 }
 
@@ -140,19 +143,19 @@ output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
         if(Node_1->data->get_goalkeeper()==0 || Node_2->data->get_goalkeeper()==0){
             return StatusType::FAILURE;
         }
-        num = compare_play_match(team1, team2);
+        num = compare_play_match(Node_1->data, Node_2->data);
         if(num == 0){ // tie
-            team1->set_points(team1->get_points()+1);
-            team2->set_points(team2->get_points()+1);
+            Node_1->data->set_points(team1->get_points()+1);
+            Node_2->data->set_points(team2->get_points()+1);
         }
         if(num == 1 || num == 2){//team1 won
-            team1->set_points(team1->get_points()+3);
+            Node_1->data->set_points(team1->get_points()+3);
         }
         if(num == 3 || num == 4){//team2 won
-            team2->set_points(team2->get_points()+3);
+            Node_2->data->set_points(team2->get_points()+3);
         }
-        team1->get_team_Players()->data->set_team_games(1);
-        team2->get_team_Players()->data->set_team_games(1);
+        Node_1->data->get_team_Players()->data->set_team_games(1);
+        Node_2->data->get_team_Players()->data->set_team_games(1);
     }
     catch(...){return StatusType::ALLOCATION_ERROR;}
 
@@ -166,15 +169,19 @@ output_t<int> world_cup_t::num_played_games_for_player(int playerId)
     }
     int sum_games_played = 0;
     try{
-        chain_Node* cur_player = players->get_hashed_array().get_player(playerId);
+        chain_Node* cur_player = players->get_player(playerId);
         if(cur_player == nullptr){
             //Didn't find the player
             return StatusType::FAILURE;
         }
-        Node<player>* source = players->Find(playerId);
+
+        if(cur_player->m_data->parent != nullptr){
+            Node<player>* source = players->Find(playerId);
+            sum_games_played+=source->data->get_team_games(); // Add the source's games played
+        }
         sum_games_played+=cur_player->m_data->data->get_games_played(); // pink in the drawing
         sum_games_played+=cur_player->m_data->data->get_team_games(); //yellows?
-        sum_games_played+=source->data->get_team_games(); // Add the source's games played
+
     }
     catch(...){return StatusType::ALLOCATION_ERROR;}
     return sum_games_played;
@@ -186,12 +193,15 @@ StatusType world_cup_t::add_player_cards(int playerId, int cards)
         return StatusType::INVALID_INPUT;
     }
     try{
-        chain_Node* cur_player = players->get_hashed_array().get_player(playerId);
+        chain_Node* cur_player = players->get_player(playerId);
         if(cur_player == nullptr){
             //Didn't find the player
             return StatusType::FAILURE;
         }
-        Node<player>* source = players->Find(playerId);
+        Node<player>* source = cur_player->m_data;
+        if(cur_player->m_data->parent!= nullptr){
+            source = players->Find(playerId);
+        }
         if(!source->data->get_is_legal()){
             //Player removed from the competition
             return StatusType::FAILURE;
@@ -209,7 +219,7 @@ output_t<int> world_cup_t::get_player_cards(int playerId)
     }
     int player_cards;
     try{
-        chain_Node* cur_player = players->get_hashed_array().get_player(playerId);
+        chain_Node* cur_player = players->get_player(playerId);
         if(cur_player == nullptr){
             //Didn't find the player
             return StatusType::FAILURE;
@@ -250,10 +260,10 @@ output_t<int> world_cup_t::get_ith_pointless_ability(int i)
         Node<team>* rec_team = team_by_ability->get_root();
         while(true){
             if(rec_team->left == nullptr && sum == i){//?
-                return rec_team->data->get_team_ability();
+                return rec_team->data->getId();
             }
             if((rec_team->left->rank + sum) == i){
-                return rec_team->data->get_team_ability();
+                return rec_team->data->getId();
             }
 
             else if(rec_team->left->rank + sum > i){
@@ -274,18 +284,21 @@ output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
         return StatusType::INVALID_INPUT;
     }
     try{
-        chain_Node* cur_p = players->get_hashed_array().get_player(playerId);
-        if(cur_p!= nullptr){
+        chain_Node* cur_p = players->get_player(playerId);
+        if(cur_p == nullptr){
             return StatusType::FAILURE;
         }
-        Node<player>* source = players->Find(playerId);
+        Node<player> *source = cur_p->m_data;
+        if(source->parent != nullptr) {
+            source = players->Find(playerId);
+        }
         if(!source->data->get_is_legal()){
             //Player removed from the competition
             return StatusType::FAILURE;
         }
         /*I want to return the team partial spirit and I don't really need the players one, so maybe we need to keep this info
         at the source in the reversed tree*/
-        return source->data->get_partial_spirit();
+        return cur_p->m_data->data->get_partial_spirit();
     }
     catch(...){return StatusType::ALLOCATION_ERROR;}
 }

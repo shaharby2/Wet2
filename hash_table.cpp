@@ -73,9 +73,8 @@ void hash_table::rehash(Node<player>* new_player) {
         }
     }
     add_to_array(new_player,new_array);
-    iterate = m_array[0];
     m_array = new_array;
-    delete[] iterate;
+    delete[] old_array;
 }
 
 int hash_table::get_cell(int id) {

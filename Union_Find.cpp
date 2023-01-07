@@ -40,7 +40,7 @@ Node<player>* Union_Find::Find(int player_id) {
         temp_partial_spirit = iterator->data->get_partial_spirit();// sets to spirit of new node
     }
 
-    return cur_player->m_data;
+    return source_iterator;
 }
 
 Node<player> *Union_Find::Union(Node<player> *buyer, Node<player> *bought) {
@@ -54,6 +54,6 @@ Node<player> *Union_Find::Union(Node<player> *buyer, Node<player> *bought) {
     return buyer;
 }
 
-hash_table Union_Find::get_hashed_array() const {
-    return m_hashed_array;
+chain_Node* Union_Find::get_player(int playerId){
+    return m_hashed_array.get_player(playerId);
 }

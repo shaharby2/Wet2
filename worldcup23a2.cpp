@@ -11,8 +11,8 @@ world_cup_t::world_cup_t()
 world_cup_t::~world_cup_t()
 {
     delete teams;
-    delete players;
     delete team_by_ability;
+    delete players;
 }
 
 StatusType world_cup_t::add_team(int teamId)
@@ -29,7 +29,7 @@ StatusType world_cup_t::add_team(int teamId)
             return StatusType::FAILURE;
         }
         teams->set_root(teams->insert(nullptr, teams->get_root(),added_team));
-        team_by_ability->set_root(team_by_ability->insert(nullptr, teams->get_root(),added_team));
+        team_by_ability->set_root(team_by_ability->insert(nullptr, team_by_ability->get_root(),added_team));
         number_of_teams++;
     }
     catch(...){return StatusType::ALLOCATION_ERROR;}
@@ -195,10 +195,9 @@ StatusType world_cup_t::add_player_cards(int playerId, int cards)
             //Didn't find the player
             return StatusType::FAILURE;
         }
-        Node<player>* source = players->Find(playerId);
-        if(!source->data->get_is_legal()){
-            //Player removed from the competition
-            return StatusType::FAILURE;
+        Node<player>* source = cur_player->m_data;
+        if(cur_player->m_data->parent!= nullptr){
+            source = players->Find(playerId);
         }
         cur_player->m_data->data->set_cards(cards);
     }
@@ -254,7 +253,7 @@ output_t<int> world_cup_t::get_ith_pointless_ability(int i)
         Node<team>* rec_team = team_by_ability->get_root();
         while(true){
             if(rec_team->left == nullptr && sum == i){//?
-                return rec_team->data->get_team_ability();
+                return rec_team->data->getId();
             }
             if(rec_team->left->rank + sum == i){
                 return rec_team->data->get_team_ability();
@@ -282,14 +281,17 @@ output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
         if(cur_p!= nullptr){
             return StatusType::FAILURE;
         }
-        Node<player>* source = players->Find(playerId);
+        Node<player> *source = cur_p->m_data;
+        if(source->parent != nullptr) {
+            source = players->Find(playerId);
+        }
         if(!source->data->get_is_legal()){
             //Player removed from the competition
             return StatusType::FAILURE;
         }
         /*I want to return the team partial spirit and I don't really need the players one, so maybe we need to keep this info
         at the source in the reversed tree*/
-        return source->data->get_partial_spirit();
+        return cur_p->m_data->data->get_partial_spirit();
     }
     catch(...){return StatusType::ALLOCATION_ERROR;}
 }

@@ -8,7 +8,6 @@ team::team(){
     this->teamId = 0;
     this->points = 0;
     this-> is_goalkeeper = false;
-    //this->num_of_players = 0;
     this-> team_games_played = 0;
     this->m_team_ability =0;
     this->m_team_Players = nullptr;
@@ -104,15 +103,6 @@ void team::set_team_Players(Node<player> *root) {
 void team::set_team_spirit(const permutation_t& perm) {
     this->m_team_spirit = perm;
 }
-/*
-void team::set_multiplication_spirit(const permutation_t &perm) {
-    this->m_multiplication_spirit = perm;
-}
-*/
-
-int team::calc_game_score() const {
-    return (this->points + this->m_team_ability);
-}
 
 int compare_team_id(Node<team>* cur_node, team& comp) {
     if (cur_node->data->getId() == comp.getId()) {
@@ -150,8 +140,8 @@ int compare_team_ability(Node<team>* cur_node, team& comp)
 }
 
 int compare_play_match(shared_ptr<team> team1, shared_ptr<team> team2){
-    int sum1 = team1->get_team_ability()+ team1->get_points();
-    int sum2 = team2->get_team_ability()+ team2->get_points();
+    int sum1 = team1->get_team_ability() + team1->get_points();
+    int sum2 = team2->get_team_ability() + team2->get_points();
     if(sum1 == sum2){
         if(team1->get_team_spirit().strength() == team2->get_team_spirit().strength()){
             return 0;

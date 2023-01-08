@@ -10,8 +10,6 @@
 
 #define MAX_WEIGHT_FACTOR 1
 
-#define MAX_WEIGHT_FACTOR 1
-
 class hash_table{
     int m_pow;
     int m_num_of_players;
@@ -31,7 +29,6 @@ public:
     int get_cell(int id);
     void set_num_of_players(int num_players);
     chain_Node** get_array()const;
-    void new_nullptr_array(int size , int pow);
 
 
 };

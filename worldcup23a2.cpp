@@ -321,6 +321,8 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
         Node<player>*Source_buyer = Node_buyer->data->get_team_Players();
         Node<player>*Source_bought = Node_bought->data->get_team_Players();
 
+        team_by_ability->set_root(team_by_ability->remove(Node_bought->data));
+        team_by_ability->set_root(team_by_ability->remove(Node_buyer->data));
         //Group1 is empty and Group2 isn't:
         if(Source_buyer == nullptr && Source_bought != nullptr){
             Node_buyer->data->set_team_Players(Node_bought->data->get_team_Players());
@@ -331,12 +333,15 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
         if(Source_buyer != nullptr && Source_bought != nullptr){
             //Assert that both teams have player:
             players->Union(Source_buyer,Source_bought);
+            Node_buyer->data->set_points(Node_bought->data->get_points());
         }
         //update ability:
-        buyer->set_team_ability(bought->get_team_ability());
+        Node_buyer->data->set_team_ability(Node_bought->data->get_team_ability());
         //remove from trees:
         teams->set_root(teams->remove(Node_bought->data));
-        team_by_ability->set_root(team_by_ability->remove(Node_bought->data));
+        //team_by_ability->set_root(team_by_ability->remove(Node_bought->data));
+        //team_by_ability->set_root(team_by_ability->remove(Node_buyer->data));
+        team_by_ability->set_root(team_by_ability->insert(nullptr, team_by_ability->get_root(), Node_buyer->data));
 
     }
     catch(...){return StatusType::ALLOCATION_ERROR;}

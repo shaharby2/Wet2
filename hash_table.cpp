@@ -3,24 +3,13 @@
 //
 #include "hash_table.h"
 
-hash_table::hash_table(int size, int pow):m_num_of_players(0),m_pow(pow),m_array(nullptr) {
+
+hash_table::hash_table(int size, int pow):m_pow(pow), m_num_of_players(0),m_array(nullptr) {
     m_array = new chain_Node*[size];
     for(int i=0;i<size;i++)
     {
         m_array[i]= nullptr;
     }
-}
-
-hash_table::~hash_table()
-{
-    delete[] m_array;
-}
-
-hash_table & hash_table::operator=(const hash_table &other) {
-    this->m_array = other.m_array;
-    this->m_num_of_players = other.m_num_of_players;
-    this->m_pow = other.m_pow;
-    return *this;
 }
 
 int power(int num, int pow){
@@ -32,6 +21,32 @@ int power(int num, int pow){
     }
     return num;
 }
+
+hash_table::~hash_table()
+{
+    int size = power(2, m_pow)-1;
+    chain_Node* temp;
+    chain_Node* temp_next;
+    for(int i=0;i<size;i++)
+    {
+        temp =  m_array[i];
+        while (temp!=nullptr)
+        {
+            temp_next = temp->m_next;
+            delete temp;
+            temp = temp_next;
+        }
+    }
+    delete[] m_array;
+}
+
+hash_table & hash_table::operator=(const hash_table &other) {
+    this->m_array = other.m_array;
+    this->m_num_of_players = other.m_num_of_players;
+    this->m_pow = other.m_pow;
+    return *this;
+}
+
 
 bool hash_table::is_rehash_needed() {
     int two_powered = power(2,m_pow+1);

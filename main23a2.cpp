@@ -46,6 +46,10 @@ int main()
     string op;
     while (cin >> op)
     {
+        if (op == "#")
+        {
+            break;
+        }
         if (!op.compare("add_team"))
         {
             cin >> tid;

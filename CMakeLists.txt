@@ -18,4 +18,4 @@ add_executable(Wet2_new
         hash_table.cpp
         Union_Find.h
         Union_Find.cpp
-        UnitTests.cpp)
+        main23a2.cpp)

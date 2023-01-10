@@ -50,13 +50,14 @@ StatusType world_cup_t::remove_team(int teamId)
             //Didn't find the team in the teams tree:
             return StatusType::FAILURE;
         }
+        to_remove_team = cur_team->data;
         Node<player>* cur_source = cur_team->data->get_team_Players();
         if(cur_source!=nullptr){
             cur_source->data->set_is_legal(false);
         }
 
-        teams->set_root(teams->remove(cur_team->data));
-        team_by_ability->set_root(team_by_ability->remove(cur_team->data));
+        teams->set_root(teams->remove(to_remove_team));
+        team_by_ability->set_root(team_by_ability->remove(to_remove_team));
         number_of_teams--;
     }
     catch(...){return StatusType::ALLOCATION_ERROR;}
@@ -120,7 +121,6 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
     }
 
     catch(...){return StatusType::ALLOCATION_ERROR;}
-    int u=0;
     return StatusType::SUCCESS;
 }
 
@@ -319,6 +319,7 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
             //Didn't find one of the teams
             return StatusType::FAILURE;
         }
+        buyer = Node_buyer->data;
         Node<player>*Source_buyer = Node_buyer->data->get_team_Players();
         Node<player>*Source_bought = Node_bought->data->get_team_Players();
 
@@ -340,9 +341,11 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
         Node_buyer->data->set_team_ability(Node_bought->data->get_team_ability());
         //remove from trees:
         teams->set_root(teams->remove(Node_bought->data));
+        Node<team>* after_delete_buyer = teams->find(teams->get_root(),*buyer);
         //team_by_ability->set_root(team_by_ability->remove(Node_bought->data));
         //team_by_ability->set_root(team_by_ability->remove(Node_buyer->data));
-        team_by_ability->set_root(team_by_ability->insert(nullptr, team_by_ability->get_root(), Node_buyer->data));
+        team_by_ability->set_root(team_by_ability->insert(nullptr, team_by_ability->get_root(), after_delete_buyer->data));
+        // Node_bought here represents Node_buyer because switch_avl_values is switching the data but Node_buyer is the removed Node.
 
     }
     catch(...){return StatusType::ALLOCATION_ERROR;}

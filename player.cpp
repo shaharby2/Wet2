@@ -17,7 +17,7 @@ player::player()
 
 player::player(int playerId, int games_Played, int ability, int cards, bool goal_Keeper):
 m_playerId(playerId),m_gamesPlayed(games_Played), m_cards(cards),m_ability(ability), m_team_games(0), m_size_of_team(0),
-m_is_legal(false), m_goalkeeper(goal_Keeper){
+ m_goalkeeper(goal_Keeper),m_is_legal(false){
     this->m_root_spirit = permutation_t::neutral();
 }
 

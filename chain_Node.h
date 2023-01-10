@@ -23,7 +23,6 @@ struct chain_Node{
     };
 
     ~chain_Node(){
-        delete this;
     };
 
 };

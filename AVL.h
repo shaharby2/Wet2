@@ -19,7 +19,7 @@ class AVL {
 public:
     int (*m_compare)( Node<T>*cur_node, T& comp);
     explicit AVL(int (*compare)(Node<T>* cur_node, T& comp));
-    ~AVL();
+    virtual ~AVL();
     void destroy_tree(Node<T>* base);
     Node<T>* get_root() const;
     void set_root(Node<T>* new_root);
@@ -409,6 +409,7 @@ Node<T>* AVL<T>::delete_node_as_leaf (Node<T>* to_delete)
         {
             to_delete_parent->left = nullptr;
         }
+        delete to_delete;
         return to_delete_parent;
     }
     if (to_delete->left == nullptr && to_delete->right != nullptr)
@@ -449,6 +450,7 @@ Node<T>* AVL<T>::delete_node_as_leaf (Node<T>* to_delete)
         {
             to_delete_parent->left = nullptr;
         }
+        delete to_delete;
         return to_delete_parent;
     }
     return nullptr;

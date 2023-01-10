@@ -102,6 +102,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
             new_player->parent = temp_root;
             temp_root->data->set_size_of_team(1);
             temp_root->data->set_goal_keeper(new_player->data->get_goal_keeper());
+            new_player->data->set_team_games(-temp_root->data->get_team_games());
             new_player->data->set_partial_spirit(temp_root->data->get_root_spirit()*spirit);
             temp_root->data->set_root_spirit( temp_root->data->get_root_spirit()*spirit);
         }

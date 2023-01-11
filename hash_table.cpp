@@ -73,6 +73,7 @@ void hash_table::add_to_array(Node<player>* new_player, chain_Node** array) {
 
 void hash_table::rehash(Node<player>* new_player) {
     int two_powered = power(2,m_pow);
+    m_pow++;
     chain_Node** new_array= new chain_Node * [((two_powered*2)-1)];
     for(int i=0;i<((two_powered*2)-1);i++)
     {
@@ -88,7 +89,6 @@ void hash_table::rehash(Node<player>* new_player) {
             iterate = iterate->m_next;
         }
     }
-    m_pow++;
     add_to_array(new_player,new_array);
     m_array = new_array;
     delete[] old_array;

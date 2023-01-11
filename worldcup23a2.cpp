@@ -175,7 +175,7 @@ output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 
 output_t<int> world_cup_t::num_played_games_for_player(int playerId)
 {
-    if (playerId == 80373)
+    if (playerId == 49002)
     {
         int u =0;
     }

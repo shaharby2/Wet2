@@ -10,7 +10,7 @@ world_cup_t::world_cup_t()
 
 world_cup_t::~world_cup_t()
 {
-    delete teams;
+   delete teams;
     delete team_by_ability;
     delete players;
 }
@@ -108,7 +108,6 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
             temp_root->data->set_root_spirit( temp_root->data->get_root_spirit()*spirit);
         }
         cur_team->data->set_team_ability(ability);
-        players->set_num_of_players(1);
 
         if (players->is_rehash_needed())
         {
@@ -258,20 +257,26 @@ output_t<int> world_cup_t::get_ith_pointless_ability(int i)
         return StatusType::FAILURE;
     }
     try{
+        int left_rank;
         Node<team>* rec_team = team_by_ability->get_root();
         while(true){
-            if(rec_team->left == nullptr && sum == i){//?
-                return rec_team->data->getId();
+            //Sets left rank:
+            if(rec_team->left == nullptr){
+                left_rank = 0;
             }
-            if((rec_team->left->rank + sum) == i){
+            else{
+                left_rank = rec_team->left->rank;
+            }
+            //Check conditions:
+            if((left_rank + sum) == i){
                 return rec_team->data->getId();
             }
 
-            else if(rec_team->left->rank + sum > i){
+            else if(left_rank+ sum > i){
                 rec_team = rec_team->left;
             }
             else{
-                sum+=rec_team->left->rank+1;
+                sum+=left_rank+1;
                 rec_team = rec_team->right;
             }
         }

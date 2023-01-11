@@ -25,7 +25,6 @@ private:
     AVL<team>* team_by_ability;
     Union_Find* players;
     int number_of_teams;
-
 public:
     // <DO-NOT-MODIFY> {
 

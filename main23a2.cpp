@@ -46,6 +46,7 @@ int main()
     string op;
     while (cin >> op)
     {
+        //Our change for debugging:
         if (op == "#")
         {
             break;

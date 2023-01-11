@@ -15,7 +15,7 @@ private:
     bool is_goalkeeper;
     int team_games_played;
     int m_team_ability;
-    Node<player>* m_team_Players;
+    Node<player>* m_team_Players; //Maybe here something?
     permutation_t m_team_spirit;
 
 public:

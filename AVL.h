@@ -327,7 +327,6 @@ Node<T>* AVL<T>::RL(Node<T>* unbalanced) {
 template<class T>
 Node<T>* AVL<T>::remove(shared_ptr<T> removed_Node_id)
 {
-
     Node<T>* to_delete= find(this->m_root ,*removed_Node_id);
     if(to_delete == nullptr)
     {
@@ -370,7 +369,7 @@ Node<T>* AVL<T>::remove(shared_ptr<T> removed_Node_id)
             }
         }
         new_root = after_deletion_node;
-        after_deletion_node =after_deletion_node->parent;
+        after_deletion_node =after_deletion_node->parent;//?
     }
     return new_root;
 }

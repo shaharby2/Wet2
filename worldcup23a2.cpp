@@ -21,7 +21,6 @@ StatusType world_cup_t::add_team(int teamId)
         return StatusType::INVALID_INPUT;
     }
     try{
-
         shared_ptr<team> added_team(new team(teamId));
 
         if(teams->find(this->teams->get_root(),*added_team) != nullptr){
@@ -87,6 +86,8 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
         {
             return StatusType::FAILURE;
         }
+        team_by_ability->set_root(team_by_ability->remove(cur_team->data)); ///new thing we added
+
         shared_ptr<player> player_data(new player(playerId,gamesPlayed,ability,cards,goalKeeper));
         Node<player>* new_player = new Node<player>();
         new_player->data = player_data;
@@ -111,6 +112,8 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
             temp_root->data->set_root_spirit( temp_root->data->get_root_spirit()*spirit);
         }
         cur_team->data->set_team_ability(ability);
+
+        team_by_ability->set_root(team_by_ability->insert(nullptr,team_by_ability->get_root(),cur_team->data)); ///new thing
 
         if (players->is_rehash_needed())
         {
@@ -255,6 +258,9 @@ output_t<int> world_cup_t::get_team_points(int teamId)
 
 output_t<int> world_cup_t::get_ith_pointless_ability(int i)
 {
+    if(i==4){
+        team_by_ability->print2D(team_by_ability->get_root());
+    }
     int sum=0;
     if(i<0 || number_of_teams==0 || i>=number_of_teams){
         return StatusType::FAILURE;

@@ -450,7 +450,7 @@ Node<T>* AVL<T>::delete_node_as_leaf (Node<T>* to_delete)
         {
             to_delete_parent->left = nullptr;
         }
-        delete to_delete;
+        delete successor;
         return to_delete_parent;
     }
     return nullptr;

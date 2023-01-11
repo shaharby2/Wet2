@@ -20,9 +20,6 @@ StatusType world_cup_t::add_team(int teamId)
     if(teamId <= 0) {
         return StatusType::INVALID_INPUT;
     }
-    if(teamId == 6){
-        int u=0;
-    }
     try{
 
         shared_ptr<team> added_team(new team(teamId));
@@ -46,7 +43,10 @@ StatusType world_cup_t::remove_team(int teamId)
         return StatusType::INVALID_INPUT;
     }
     try{
-
+        if(teamId == 24086)
+        {
+            int u =0;
+        }
         shared_ptr<team> to_remove_team(new team(teamId));
         Node<team>* cur_team = teams->find(this->teams->get_root(),*to_remove_team);
         if(cur_team == nullptr){

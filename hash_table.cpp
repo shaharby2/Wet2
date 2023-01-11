@@ -49,8 +49,8 @@ hash_table & hash_table::operator=(const hash_table &other) {
 
 
 bool hash_table::is_rehash_needed() {
-    int two_powered = power(2,m_pow+1);
-    if(MAX_WEIGHT_FACTOR <= (m_num_of_players/two_powered-1)){
+    int two_powered = power(2,m_pow);
+    if(MAX_WEIGHT_FACTOR <= (m_num_of_players/(two_powered-1))){
         return true;
     }
     return false;
@@ -59,21 +59,20 @@ bool hash_table::is_rehash_needed() {
 void hash_table::add_to_array(Node<player>* new_player, chain_Node** array) {
     chain_Node* cur_chain = new chain_Node(new_player);
     int cell = get_cell(new_player->data->getId());
-    if(m_array[cell] == nullptr)
+    if(array[cell] == nullptr)
     {
-        m_array[cell] = cur_chain;
+        array[cell] = cur_chain;
     }
     else
     {
-        (cur_chain)->m_next = array[cell]->m_next;
-        array[cell]->m_next = (cur_chain);
+        cur_chain->m_next = array[cell]->m_next;
+        array[cell]->m_next = cur_chain;
     }
     m_num_of_players++;
 }
 
 void hash_table::rehash(Node<player>* new_player) {
     int two_powered = power(2,m_pow);
-    m_pow++;
     chain_Node** new_array= new chain_Node * [((two_powered*2)-1)];
     for(int i=0;i<((two_powered*2)-1);i++)
     {
@@ -83,12 +82,13 @@ void hash_table::rehash(Node<player>* new_player) {
     chain_Node* iterate;
     for(int i=0;i<two_powered-1;i++)
     {
-        iterate = new_array[i];
+        iterate = old_array[i];
         while(iterate != nullptr){
             add_to_array(iterate->m_data, new_array);
             iterate = iterate->m_next;
         }
     }
+    m_pow++;
     add_to_array(new_player,new_array);
     m_array = new_array;
     delete[] old_array;

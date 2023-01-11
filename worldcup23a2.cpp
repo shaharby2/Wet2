@@ -42,10 +42,10 @@ StatusType world_cup_t::remove_team(int teamId)
         return StatusType::INVALID_INPUT;
     }
     try{
-        if(teamId == 24086)
+       /* if(teamId == 24086)
         {
             int u =0;
-        }
+        }*/
         shared_ptr<team> to_remove_team(new team(teamId));
         Node<team>* cur_team = teams->find(this->teams->get_root(),*to_remove_team);
         if(cur_team == nullptr){
@@ -70,6 +70,11 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
                                    const permutation_t &spirit, int gamesPlayed,
                                    int ability, int cards, bool goalKeeper)
 {
+    if(playerId == 55457)
+    {
+        int u =0;
+    }
+
     if(playerId <= 0|| teamId <= 0 || gamesPlayed<0 || !spirit.isvalid() || cards<0)
     {
         return StatusType::INVALID_INPUT;
@@ -170,6 +175,10 @@ output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 
 output_t<int> world_cup_t::num_played_games_for_player(int playerId)
 {
+    if (playerId == 80373)
+    {
+        int u =0;
+    }
     if(playerId<=0){
         return StatusType::INVALID_INPUT;
     }
@@ -258,9 +267,6 @@ output_t<int> world_cup_t::get_team_points(int teamId)
 
 output_t<int> world_cup_t::get_ith_pointless_ability(int i)
 {
-    if(i==4){
-        team_by_ability->print2D(team_by_ability->get_root());
-    }
     int sum=0;
     if(i<0 || number_of_teams==0 || i>=number_of_teams){
         return StatusType::FAILURE;

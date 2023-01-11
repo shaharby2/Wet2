@@ -121,7 +121,7 @@ int compare_team_ability(Node<team>* cur_node, team& comp)
         {
             return 0;
         }
-        else if(cur_node->data->getId() == comp.getId())
+        else if(cur_node->data->getId() > comp.getId())
         {
             return  -1;
         }

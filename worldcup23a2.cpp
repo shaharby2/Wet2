@@ -20,6 +20,9 @@ StatusType world_cup_t::add_team(int teamId)
     if(teamId <= 0) {
         return StatusType::INVALID_INPUT;
     }
+    if(teamId == 6){
+        int u=0;
+    }
     try{
 
         shared_ptr<team> added_team(new team(teamId));
@@ -350,7 +353,7 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
         //team_by_ability->set_root(team_by_ability->remove(Node_bought->data));
         //team_by_ability->set_root(team_by_ability->remove(Node_buyer->data));
         team_by_ability->set_root(team_by_ability->insert(nullptr, team_by_ability->get_root(), after_delete_buyer->data));
-        // Node_bought here represents Node_buyer because switch_avl_values is switching the data but Node_buyer is the removed Node.
+        number_of_teams--;
 
     }
     catch(...){return StatusType::ALLOCATION_ERROR;}

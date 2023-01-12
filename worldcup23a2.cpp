@@ -10,7 +10,7 @@ world_cup_t::world_cup_t()
 
 world_cup_t::~world_cup_t()
 {
-   delete teams;
+    delete teams;
     delete team_by_ability;
     delete players;
 }
@@ -70,9 +70,11 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
                                    const permutation_t &spirit, int gamesPlayed,
                                    int ability, int cards, bool goalKeeper)
 {
-    if(playerId == 97598 && teamId == 2708){
-        int u=0;
+   /* if(playerId == 55457)
+    {
+        int u =0;
     }
+*/
     if(playerId <= 0|| teamId <= 0 || gamesPlayed<0 || !spirit.isvalid() || cards<0)
     {
         return StatusType::INVALID_INPUT;
@@ -135,9 +137,6 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
 
 output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 {
-    if(teamId1 == 7 && teamId2 ==6){
-        int u=0;
-    }
     if(teamId1<=0 || teamId2<=0 || teamId1==teamId2){
         return StatusType::INVALID_INPUT;
     }
@@ -177,10 +176,10 @@ output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 
 output_t<int> world_cup_t::num_played_games_for_player(int playerId)
 {
-    if (playerId == 83314)
+   /* if (playerId == 83314)
     {
         int u =0;
-    }
+    }*/
     if(playerId<=0){
         return StatusType::INVALID_INPUT;
     }
@@ -310,11 +309,11 @@ output_t<int> world_cup_t::get_ith_pointless_ability(int i)
 
 output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
 {
-    if (playerId == 83314)
+    /*if (playerId == 74012)
     {
         int u =0;
     }
-
+*/
     if(playerId<=0){
         return StatusType::INVALID_INPUT;
     }
@@ -340,11 +339,11 @@ output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
 
 StatusType world_cup_t::buy_team(int teamId1, int teamId2)
 {
-    if (teamId1 == 6 && teamId2 ==3)
+ /*   if (teamId1 == 8  && teamId2 == 7)
     {
         int u =0;
     }
-
+*/
     if(teamId1<=0 || teamId2<=0 || teamId1==teamId2){
         return StatusType::INVALID_INPUT;
     }
@@ -378,13 +377,9 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
             Node_buyer->data->set_team_ability(Node_bought->data->get_team_ability());
             Node_buyer->data->set_goalkeeper(Node_bought->data->get_goalkeeper()); ///New
         }
-        //update ability:
-        //Node_buyer->data->set_team_ability(Node_bought->data->get_team_ability());
         //remove from trees:
         teams->set_root(teams->remove(Node_bought->data));
         Node<team>* after_delete_buyer = teams->find(teams->get_root(),*buyer);
-        //team_by_ability->set_root(team_by_ability->remove(Node_bought->data));
-        //team_by_ability->set_root(team_by_ability->remove(Node_buyer->data));
         team_by_ability->set_root(team_by_ability->insert(nullptr, team_by_ability->get_root(), after_delete_buyer->data));
         number_of_teams--;
 

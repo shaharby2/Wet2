@@ -33,6 +33,7 @@ hash_table::~hash_table()
         while (temp!=nullptr)
         {
             temp_next = temp->m_next;
+            delete temp->m_data;
             delete temp;
             temp = temp_next;
         }

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.23)
 project(Wet2_new)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 
 add_executable(Wet2_new
         worldcup23a2.cpp

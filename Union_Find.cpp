@@ -4,7 +4,7 @@
 #include "Union_Find.h"
 
 Union_Find::Union_Find(int size, int pow):
-m_hashed_array(size, pow){}
+        m_hashed_array(size, pow){}
 
 Node<player>* Union_Find::Find(int player_id) {
     chain_Node* cur_player = m_hashed_array.get_player(player_id);
@@ -22,6 +22,10 @@ Node<player>* Union_Find::Find(int player_id) {
         source_iterator = source_iterator->parent;
         sum_team_games+=source_iterator->data->get_team_games();
         temp = source_iterator->data->get_root_spirit()*temp;
+    }
+    if(cur_player->m_data->parent == source_iterator) ///check the condition - son of the source
+    {
+        return source_iterator;
     }
     sum_team_games -= source_iterator->data->get_team_games(); // subtracting root team games
     temp = source_iterator->data->get_root_spirit().inv() * temp;
@@ -45,10 +49,11 @@ Node<player> *Union_Find::Union(Node<player> *buyer, Node<player> *bought) {
     bought->parent = buyer;
     bought->data->set_team_games(-buyer->data->get_team_games());
     buyer->data->set_size_of_team(bought->data->get_size_of_team());
-    buyer->data->set_goal_keeper(bought->data->get_goal_keeper());
+    //buyer->data->set_goal_keeper(bought->data->get_goal_keeper()); ///Idan new
     permutation_t temp_spirit = buyer->data->get_root_spirit();
     buyer->data->set_root_spirit( buyer->data->get_root_spirit()*bought->data->get_root_spirit());
     bought->data->set_root_spirit(temp_spirit);
+    bought->data->set_partial_spirit(bought->data->get_root_spirit()*bought->data->get_partial_spirit()); /// new
     return buyer;
 }
 

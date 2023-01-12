@@ -25,6 +25,7 @@ public:
 
     bool is_rehash_needed();
     void add_to_array(Node<player>* new_player, chain_Node** array);
+    //void replace_node(chain_Node* node, chain_Node** array);
     void rehash(Node<player>* new_player);
     int get_cell(int id);
     void set_num_of_players(int num_players);

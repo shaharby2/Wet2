@@ -71,6 +71,19 @@ void hash_table::add_to_array(Node<player>* new_player, chain_Node** array) {
     m_num_of_players++;
 }
 
+/*void hash_table::replace_node(chain_Node* node, chain_Node** array) {
+    int cell = get_cell(node->m_data->data->getId());
+    if(array[cell] == nullptr)
+    {
+        array[cell] = node;
+    }
+    else
+    {
+        node->m_next = array[cell]->m_next;
+        array[cell]->m_next = node;
+    }
+}
+*/
 void hash_table::rehash(Node<player>* new_player) {
     int two_powered = power(2,m_pow);
     m_pow++;
@@ -81,12 +94,16 @@ void hash_table::rehash(Node<player>* new_player) {
     }
     chain_Node** old_array = m_array;
     chain_Node* iterate;
+    chain_Node* next_chain;
     for(int i=0;i<two_powered-1;i++)
     {
         iterate = old_array[i];
         while(iterate != nullptr){
+            next_chain = iterate->m_next;
             add_to_array(iterate->m_data, new_array);
-            iterate = iterate->m_next;
+            m_num_of_players--;
+            delete iterate;
+            iterate = next_chain;
         }
     }
     add_to_array(new_player,new_array);

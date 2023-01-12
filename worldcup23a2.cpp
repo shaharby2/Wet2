@@ -176,10 +176,10 @@ output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 
 output_t<int> world_cup_t::num_played_games_for_player(int playerId)
 {
-   /* if (playerId == 49002)
+    if (playerId == 83314)
     {
         int u =0;
-    }*/
+    }
     if(playerId<=0){
         return StatusType::INVALID_INPUT;
     }
@@ -309,7 +309,7 @@ output_t<int> world_cup_t::get_ith_pointless_ability(int i)
 
 output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
 {
-    if (playerId == 81427)
+    if (playerId == 83314)
     {
         int u =0;
     }
@@ -339,7 +339,7 @@ output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
 
 StatusType world_cup_t::buy_team(int teamId1, int teamId2)
 {
-    if (teamId1 == 63167 && teamId2 ==5)
+    if (teamId1 == 7 && teamId2 ==66791)
     {
         int u =0;
     }
@@ -370,7 +370,7 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
             buy(Node_buyer->data,Node_bought->data);
 
         }
-        if(Source_buyer != nullptr && Source_bought != nullptr){
+        else if(Source_buyer != nullptr && Source_bought != nullptr){
             //Assert that both teams have player:
             players->Union(Source_buyer,Source_bought);
             Node_buyer->data->set_points(Node_bought->data->get_points());

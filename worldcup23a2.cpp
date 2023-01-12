@@ -20,6 +20,9 @@ StatusType world_cup_t::add_team(int teamId)
     if(teamId <= 0) {
         return StatusType::INVALID_INPUT;
     }
+    if(teamId==79671){
+        int u=0;
+    }
     try{
         shared_ptr<team> added_team(new team(teamId));
 
@@ -70,9 +73,8 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
                                    const permutation_t &spirit, int gamesPlayed,
                                    int ability, int cards, bool goalKeeper)
 {
-    if(playerId == 55457)
-    {
-        int u =0;
+    if(playerId == 12306){
+        int u=0;
     }
 
     if(playerId <= 0|| teamId <= 0 || gamesPlayed<0 || !spirit.isvalid() || cards<0)
@@ -111,7 +113,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
             Node<player>* temp_root = cur_team->data->get_team_Players();
             new_player->parent = temp_root;
             temp_root->data->set_size_of_team(1);
-            temp_root->data->set_goal_keeper(new_player->data->get_goal_keeper());
+            cur_team->data->set_goalkeeper(new_player->data->get_goal_keeper());
             new_player->data->set_team_games(-temp_root->data->get_team_games());
             new_player->data->set_partial_spirit(temp_root->data->get_root_spirit()*spirit);
             temp_root->data->set_root_spirit( temp_root->data->get_root_spirit()*spirit);
@@ -136,6 +138,9 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
 
 output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 {
+    if(teamId1 == 56198 && teamId2==74209){
+        int u=0;
+    }
     if(teamId1<=0 || teamId2<=0 || teamId1==teamId2){
         return StatusType::INVALID_INPUT;
     }
@@ -204,6 +209,7 @@ output_t<int> world_cup_t::num_played_games_for_player(int playerId)
 
 StatusType world_cup_t::add_player_cards(int playerId, int cards)
 {
+
     if(playerId<=0 || cards<0){
         return StatusType::INVALID_INPUT;
     }
@@ -268,6 +274,9 @@ output_t<int> world_cup_t::get_team_points(int teamId)
 output_t<int> world_cup_t::get_ith_pointless_ability(int i)
 {
     int sum=0;
+    if(i==11){
+       team_by_ability->print2D(team_by_ability->get_root());
+    }
     if(i<0 || number_of_teams==0 || i>=number_of_teams){
         return StatusType::FAILURE;
     }

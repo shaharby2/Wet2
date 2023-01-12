@@ -268,13 +268,13 @@ output_t<int> world_cup_t::get_team_points(int teamId)
 
 output_t<int> world_cup_t::get_ith_pointless_ability(int i)
 {
-    if (i == 11)
+   /* if (i == 11)
     {
         int u = 0;
         team_by_ability->print2D(team_by_ability->get_root());
         return 0;
     }
-
+*/
     int sum=0;
     if(i<0 || number_of_teams==0 || i>=number_of_teams){
         return StatusType::FAILURE;
@@ -374,9 +374,10 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
             //Assert that both teams have player:
             players->Union(Source_buyer,Source_bought);
             Node_buyer->data->set_points(Node_bought->data->get_points());
+            Node_buyer->data->set_team_ability(Node_bought->data->get_team_ability());
         }
         //update ability:
-        Node_buyer->data->set_team_ability(Node_bought->data->get_team_ability());
+        //Node_buyer->data->set_team_ability(Node_bought->data->get_team_ability());
         //remove from trees:
         teams->set_root(teams->remove(Node_bought->data));
         Node<team>* after_delete_buyer = teams->find(teams->get_root(),*buyer);

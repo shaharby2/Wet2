@@ -42,10 +42,6 @@ StatusType world_cup_t::remove_team(int teamId)
         return StatusType::INVALID_INPUT;
     }
     try{
-       /* if(teamId == 24086)
-        {
-            int u =0;
-        }*/
         shared_ptr<team> to_remove_team(new team(teamId));
         Node<team>* cur_team = teams->find(this->teams->get_root(),*to_remove_team);
         if(cur_team == nullptr){
@@ -70,11 +66,6 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
                                    const permutation_t &spirit, int gamesPlayed,
                                    int ability, int cards, bool goalKeeper)
 {
-   /* if(playerId == 55457)
-    {
-        int u =0;
-    }
-*/
     if(playerId <= 0|| teamId <= 0 || gamesPlayed<0 || !spirit.isvalid() || cards<0)
     {
         return StatusType::INVALID_INPUT;
@@ -110,7 +101,6 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
         {
             Node<player>* temp_root = cur_team->data->get_team_Players();
             new_player->parent = temp_root;
-            temp_root->data->set_size_of_team(1);
             cur_team->data->set_goalkeeper(new_player->data->get_goal_keeper());
             new_player->data->set_team_games(-temp_root->data->get_team_games());
             new_player->data->set_partial_spirit(temp_root->data->get_partial_spirit().inv()*temp_root->data->get_root_spirit()*spirit);
@@ -137,11 +127,6 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
 
 output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 {
-    /*if (teamId1 == 5 && teamId2 == 1)
-    {
-        int u=0;
-    }
-*/
     if(teamId1<=0 || teamId2<=0 || teamId1==teamId2){
         return StatusType::INVALID_INPUT;
     }
@@ -181,10 +166,6 @@ output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 
 output_t<int> world_cup_t::num_played_games_for_player(int playerId)
 {
-   /* if (playerId == 47607)
-    {
-        int u =0;
-    }*/
     if(playerId<=0){
         return StatusType::INVALID_INPUT;
     }
@@ -273,13 +254,6 @@ output_t<int> world_cup_t::get_team_points(int teamId)
 
 output_t<int> world_cup_t::get_ith_pointless_ability(int i)
 {
-   /* if (i == 11)
-    {
-        int u = 0;
-        team_by_ability->print2D(team_by_ability->get_root());
-        return 0;
-    }
-*/
     int sum=0;
     if(i<0 || number_of_teams==0 || i>=number_of_teams){
         return StatusType::FAILURE;
@@ -314,11 +288,6 @@ output_t<int> world_cup_t::get_ith_pointless_ability(int i)
 
 output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
 {
-  /*  if (playerId == 47607)
-    {
-        int u =0;
-    }
-*/
     if(playerId<=0){
         return StatusType::INVALID_INPUT;
     }
@@ -348,11 +317,6 @@ output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
 
 StatusType world_cup_t::buy_team(int teamId1, int teamId2)
 {
- /*  if (teamId1 == 23914  && teamId2 == 15649)
-    {
-        int u =0;
-    }
-*/
     if(teamId1<=0 || teamId2<=0 || teamId1==teamId2){
         return StatusType::INVALID_INPUT;
     }
@@ -385,14 +349,13 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
             Node_bought->data->set_team_Players(nullptr);
             Node_buyer->data->set_points(Node_bought->data->get_points());
             Node_buyer->data->set_team_ability(Node_bought->data->get_team_ability());
-            Node_buyer->data->set_goalkeeper(Node_bought->data->get_goalkeeper()); ///New
+            Node_buyer->data->set_goalkeeper(Node_bought->data->get_goalkeeper());
         }
         //remove from trees:
         teams->set_root(teams->remove(Node_bought->data));
         Node<team>* after_delete_buyer = teams->find(teams->get_root(),*buyer);
         team_by_ability->set_root(team_by_ability->insert(nullptr, team_by_ability->get_root(), after_delete_buyer->data));
         number_of_teams--;
-
     }
     catch(...){return StatusType::ALLOCATION_ERROR;}
 

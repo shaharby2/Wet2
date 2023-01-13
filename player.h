@@ -16,7 +16,6 @@ private:
     int m_cards;
     int m_ability;
     int m_team_games;
-    int m_size_of_team;
     bool m_goalkeeper;
     bool m_is_legal;
     permutation_t m_partial_spirit;

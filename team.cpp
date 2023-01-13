@@ -35,17 +35,6 @@ int team::get_points()const
     return this->points;
 }
 
-/*
-int team::get_num_of_players()const
-{
-    return this->num_of_players;
-}
-void team::set_num_of_players(int new_num_of_players)
-{
-    this->num_of_players = new_num_of_players;
-}
- */
-
 int team::get_team_games_played()const
 {
     return this->team_games_played;

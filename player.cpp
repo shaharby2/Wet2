@@ -9,14 +9,14 @@ player::player()
     this->m_cards =0;
     this->m_ability = 0;
     this->m_team_games =0;
-    this->m_size_of_team = 1;
+    //this->m_size_of_team = 1;
     this->m_is_legal = false;
     this->m_goalkeeper = false;
     this->m_root_spirit = permutation_t::neutral();
 }
 
 player::player(int playerId, int games_Played, int ability, int cards, bool goal_Keeper):
-m_playerId(playerId),m_gamesPlayed(games_Played), m_cards(cards),m_ability(ability), m_team_games(0), m_size_of_team(0),
+m_playerId(playerId),m_gamesPlayed(games_Played), m_cards(cards),m_ability(ability), m_team_games(0),
  m_goalkeeper(goal_Keeper),m_is_legal(false){
     this->m_root_spirit = permutation_t::neutral();
 }
@@ -43,10 +43,6 @@ int player::get_ability() const {
 
 int player::get_team_games() const {
     return this->m_team_games;
-}
-
-int player::get_size_of_team() const {
-    return this->m_size_of_team;
 }
 
 bool player::get_is_legal() const {
@@ -84,10 +80,11 @@ void player::set_ability(int ability) {
 void player::set_team_games(int games) {
     this->m_team_games += games;
 }
-
+/*
 void player::set_size_of_team(int size) {
     this->m_size_of_team += size;
 }
+ */
 
 void player::set_is_legal(bool is_legal) {
     this->m_is_legal = is_legal;

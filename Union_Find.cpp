@@ -15,13 +15,15 @@ Node<player>* Union_Find::Find(int player_id) {
     Node<player>* source_iterator = cur_player->m_data;
     Node<player>* iterator = cur_player->m_data;
     Node<player>* next_p;
-    permutation_t temp = cur_player->m_data->data->get_root_spirit(); //multiplies all permutations
-    permutation_t temp_root_spirit = cur_player->m_data->data->get_root_spirit();// specific node partial_spirit
+    permutation_t temp = cur_player->m_data->parent->data->get_root_spirit(); //multiplies all permutations
+    permutation_t temp_root_spirit = cur_player->m_data->parent->data->get_root_spirit();// specific node partial_spirit
     int sum_team_games=0;
     while(source_iterator->parent!=nullptr){
         source_iterator = source_iterator->parent;
         sum_team_games+=source_iterator->data->get_team_games();
-        temp = source_iterator->data->get_root_spirit()*temp;
+        if(source_iterator->parent != nullptr){
+            temp = source_iterator->parent->data->get_root_spirit()*temp;
+        }
     }
     if(cur_player->m_data->parent == source_iterator) ///check the condition - son of the source
     {
@@ -35,11 +37,14 @@ Node<player>* Union_Find::Find(int player_id) {
         iterator->parent = source_iterator; // Change the parent
         iterator->data->set_team_games(sum_team_games);// sets the correct team games
         iterator->data->set_partial_spirit(temp*iterator->data->get_partial_spirit());//sets specific partial_spirit
-        iterator->data->set_root_spirit(temp);// sets multiplication of permutations in way of the root
+        iterator->data->set_root_spirit(temp*temp_root_spirit);// sets multiplication of permutations in way of the root
         iterator = next_p; //Reach to the old parent
         sum_team_games -= iterator->data->get_team_games();// subtracting the current team games
         temp = temp * temp_root_spirit.inv();// removing current node spirit
-        temp_root_spirit = iterator->data->get_root_spirit();// sets to spirit of new node
+        if(iterator->parent != source_iterator && iterator->parent != nullptr)
+        {
+            temp_root_spirit = iterator->parent->data->get_root_spirit();// sets to spirit of new node
+        }
     }
 
     return source_iterator;

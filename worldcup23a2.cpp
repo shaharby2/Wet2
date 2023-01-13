@@ -309,7 +309,7 @@ output_t<int> world_cup_t::get_ith_pointless_ability(int i)
 
 output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
 {
-    /*if (playerId == 74012)
+    /*if (playerId == 81427)
     {
         int u =0;
     }
@@ -339,7 +339,7 @@ output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
 
 StatusType world_cup_t::buy_team(int teamId1, int teamId2)
 {
- /*   if (teamId1 == 8  && teamId2 == 7)
+  /*  if (teamId1 == 63167  && teamId2 == 5)
     {
         int u =0;
     }

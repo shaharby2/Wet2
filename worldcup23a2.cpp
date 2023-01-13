@@ -113,7 +113,7 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
             temp_root->data->set_size_of_team(1);
             cur_team->data->set_goalkeeper(new_player->data->get_goal_keeper());
             new_player->data->set_team_games(-temp_root->data->get_team_games());
-            new_player->data->set_partial_spirit(temp_root->data->get_root_spirit()*spirit);
+            new_player->data->set_partial_spirit(temp_root->data->get_partial_spirit().inv()*temp_root->data->get_root_spirit()*spirit);
             temp_root->data->set_root_spirit( temp_root->data->get_root_spirit()*spirit);
         }
         cur_team->data->set_team_ability(ability);
@@ -137,6 +137,11 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
 
 output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 {
+    if (teamId1 == 5 && teamId2 == 1)
+    {
+        int u=0;
+    }
+
     if(teamId1<=0 || teamId2<=0 || teamId1==teamId2){
         return StatusType::INVALID_INPUT;
     }
@@ -176,7 +181,7 @@ output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 
 output_t<int> world_cup_t::num_played_games_for_player(int playerId)
 {
-   /* if (playerId == 83314)
+   /* if (playerId == 47607)
     {
         int u =0;
     }*/
@@ -309,7 +314,7 @@ output_t<int> world_cup_t::get_ith_pointless_ability(int i)
 
 output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
 {
-    /*if (playerId == 81427)
+  /*  if (playerId == 47607)
     {
         int u =0;
     }
@@ -330,16 +335,20 @@ output_t<permutation_t> world_cup_t::get_partial_spirit(int playerId)
             //Player removed from the competition
             return StatusType::FAILURE;
         }
+        if(cur_p->m_data->parent == nullptr)
+        {
+            return cur_p->m_data->data->get_partial_spirit();
+        }
         /*I want to return the team partial spirit and I don't really need the players one, so maybe we need to keep this info
         at the source in the reversed tree*/
-        return cur_p->m_data->data->get_partial_spirit();
+        return source->data->get_partial_spirit()*cur_p->m_data->data->get_partial_spirit();
     }
     catch(...){return StatusType::ALLOCATION_ERROR;}
 }
 
 StatusType world_cup_t::buy_team(int teamId1, int teamId2)
 {
-  /*  if (teamId1 == 63167  && teamId2 == 5)
+ /*  if (teamId1 == 23914  && teamId2 == 15649)
     {
         int u =0;
     }
@@ -372,7 +381,8 @@ StatusType world_cup_t::buy_team(int teamId1, int teamId2)
         }
         else if(Source_buyer != nullptr && Source_bought != nullptr){
             //Assert that both teams have player:
-            players->Union(Source_buyer,Source_bought);
+            Node_buyer->data->set_team_Players(players->Union(Source_buyer,Source_bought));
+            Node_bought->data->set_team_Players(nullptr);
             Node_buyer->data->set_points(Node_bought->data->get_points());
             Node_buyer->data->set_team_ability(Node_bought->data->get_team_ability());
             Node_buyer->data->set_goalkeeper(Node_bought->data->get_goalkeeper()); ///New

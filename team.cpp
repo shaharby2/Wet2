@@ -143,10 +143,10 @@ int compare_play_match(shared_ptr<team> team1, shared_ptr<team> team2){
     int sum1 = team1->get_team_ability() + team1->get_points();
     int sum2 = team2->get_team_ability() + team2->get_points();
     if(sum1 == sum2){
-        if(team1->get_team_spirit().strength() == team2->get_team_spirit().strength()){
+        if(team1->get_team_Players()->data->get_root_spirit().strength() == team2->get_team_Players()->data->get_root_spirit().strength()){
             return 0;
         }
-        else if(team1->get_team_spirit().strength() > team2->get_team_spirit().strength()){
+        else if(team1->get_team_Players()->data->get_root_spirit().strength() > team2->get_team_Players()->data->get_root_spirit().strength()){
             return 2;
         }
         else{

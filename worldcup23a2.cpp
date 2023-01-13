@@ -137,11 +137,11 @@ StatusType world_cup_t::add_player(int playerId, int teamId,
 
 output_t<int> world_cup_t::play_match(int teamId1, int teamId2)
 {
-    if (teamId1 == 5 && teamId2 == 1)
+    /*if (teamId1 == 5 && teamId2 == 1)
     {
         int u=0;
     }
-
+*/
     if(teamId1<=0 || teamId2<=0 || teamId1==teamId2){
         return StatusType::INVALID_INPUT;
     }
